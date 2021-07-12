@@ -1,0 +1,5 @@
+Here's a bunch of junk!!!
+Directory=ME.TXT
+Whats upppp
+ListType=LinkedList
+Hiiiiii
