@@ -14,7 +14,7 @@ public class Configuration {
         FileReader reader;
         Properties properties;
 
-        // 1 - Read configuration file
+        // Read configuration file
         try {
             reader = new FileReader(fileName);
             properties = new Properties(System.getProperties());
@@ -25,12 +25,12 @@ public class Configuration {
             e.printStackTrace();
         }
 
-        // 2 - Validate listProperty
+        // Validate listProperty
         if (!listProperty.equals("ArrayList") && !listProperty.equals("LinkedList")) {
             throw new InvalidPropertiesFormatException("Unsupported or invalid list type");
         }
 
-        // 3 - Validate directoryProperty and determine if directory OR file
+        // Validate directoryProperty and determine if directory OR file
         File file = new File(directoryProperty);
         if (file.isDirectory()) {
             isDirectory = true;
@@ -50,22 +50,13 @@ public class Configuration {
         return directoryProperty;
     }
 
-    public boolean isDirectory() {
-        File file = new File(directoryProperty);
-        isDirectory = file.isDirectory();
-        return isDirectory;
-    }
-
     public File[] getListOfFiles() {
         return listOfFiles;
     }
 
-    public static void main(String[] args) throws IOException {
-        Configuration configuration = new Configuration();
-        try {
-            configuration.setProperties("SampleConfigurationFile.txt");
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
+    public boolean isDirectory() {
+        File file = new File(directoryProperty);
+        isDirectory = file.isDirectory();
+        return isDirectory;
     }
 }

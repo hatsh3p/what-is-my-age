@@ -17,6 +17,7 @@ public class Main {
         }
 
         // Requirement 2: Store data from SSA files, Requirement 3: Accept 1+ queries
+        // Two cases: File and Directory
         // CASE 1: File
         if(!configuration.isDirectory()) {
             List<Record> records = readRecords(configuration);
@@ -38,12 +39,14 @@ public class Main {
             }
             while(!commandLineInterface.isExit()) {
                 commandLineInterface.getUserInput();
-                String state = commandLineInterface.getQuery().getState();
+
+                // Get record for the appropriate state
+                String stateQueried = commandLineInterface.getQuery().getState();
                 List<Record> stateRecord = null;
                 Iterator<List<Record>> iterator = multipleRecords.iterator();
                 while (iterator.hasNext() && multipleRecords.size() != 0) {
                     List<Record> list = iterator.next();
-                    if (list.get(0).getState().equals(state)){
+                    if (list.get(0).getState().equals(stateQueried)){
                         stateRecord = list;
                     }
                 }
@@ -54,6 +57,7 @@ public class Main {
 
     public static final String delimiter = ",";
 
+    //TODO: Repeated code below (figure out a way to consolidate)
     private static List<Record> readRecords(Configuration configuration, File stateFile) {
         List<Record> list;
         if (configuration.getListType().equals("ArrayList")) {
