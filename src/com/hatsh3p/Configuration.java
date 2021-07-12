@@ -1,49 +1,71 @@
 package com.hatsh3p;
 
 import java.io.*;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 public class Configuration {
-    String listType = null;
-    String directory = null;
-
-    // use default constructor
-
-    public String getListType() {
-        return listType;
-    }
-
-    public String getDirectory() {
-        return directory;
-    }
+    private String listProperty;
+    private String directoryProperty;
+    private boolean isDirectory;
+    private File[] listOfFiles;
 
     public void setProperties(String fileName) throws IOException {
-        FileReader reader = null;
-        Properties properties = null;
+        FileReader reader;
+        Properties properties;
+
+        // 1 - Read configuration file
         try {
             reader = new FileReader(fileName);
+            properties = new Properties(System.getProperties());
+            properties.load(reader);
+            listProperty = properties.getProperty("ListType");
+            directoryProperty = properties.getProperty("Directory");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        properties = new Properties(System.getProperties());
-        properties.load(reader);
-        listType = properties.getProperty("ListType");
-        directory = properties.getProperty("Directory");
+        // 2 - Validate listProperty
+        if (!listProperty.equals("ArrayList") && !listProperty.equals("LinkedList")) {
+            throw new InvalidPropertiesFormatException("Unsupported or invalid list type");
+        }
 
-        if (listType == null || directory == null)
-            throw new NullPointerException();
-
-        System.out.println("listType=" + listType + "Directory=" + directory);
+        // 3 - Validate directoryProperty and determine if directory OR file
+        File file = new File(directoryProperty);
+        if (file.isDirectory()) {
+            isDirectory = true;
+            listOfFiles = file.listFiles();
+        } else if (file.isFile()) {
+            isDirectory = false;
+        } else {
+            throw new FileNotFoundException();
+        }
     }
 
-    public void getFiles() {
-        File folder = new File(directory);
-        File[] listOfFiles = folder.listFiles();
+    public String getListType() {
+        return listProperty;
+    }
 
-        for (File file: listOfFiles) {
-            if(file.isFile())
-                System.out.println(file.getName());
+    public String getDirectoryProperty() {
+        return directoryProperty;
+    }
+
+    public boolean isDirectory() {
+        File file = new File(directoryProperty);
+        isDirectory = file.isDirectory();
+        return isDirectory;
+    }
+
+    public File[] getListOfFiles() {
+        return listOfFiles;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Configuration configuration = new Configuration();
+        try {
+            configuration.setProperties("SampleConfigurationFile.txt");
+        } catch (Exception e) {
+            System.out.println("Error");
         }
     }
 }

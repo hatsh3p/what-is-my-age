@@ -78,15 +78,15 @@ public class ArrayList<T> implements List<T> {
 //    }
 
     public String toString() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 0; i < size; i++) {
-            result += arr[i] + "\n";
+            result.append(arr[i]).append("\n");
         }
-        return result;
+        return result.toString();
     }
 
     public Iterator<T> iterator() {
-        return new ListIterator<T>();
+        return new ListIterator<>();
     }
 
     // ListIterator is an inner class that has access to the data in ArrayList

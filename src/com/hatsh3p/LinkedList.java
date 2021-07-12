@@ -6,20 +6,18 @@ public class LinkedList<T> implements List<T>{
 
     public LinkedList() {
         this.size = 0;
-        this.head = null;
     }
 
     @Override
     public void add(T item) {
         if (head == null) {
-            head = new Node<T>(item);
+            head = new Node<>(item);
         } else {
             Node<T> node = head;
             while (node.next != null) {
                 node = node.next;
             }
-            Node<T> newNode = new Node<T>(item);
-            node.next = newNode;
+            node.next = new Node<>(item);
         }
         ++size;
     }
@@ -29,7 +27,7 @@ public class LinkedList<T> implements List<T>{
         if (pos < 0 || pos > size)
             throw new IndexOutOfBoundsException();
         if (pos == 0) {
-            Node<T> node = new Node<T>(item);
+            Node<T> node = new Node<>(item);
             node.next = head;
             head = node;
         } else {
@@ -37,7 +35,7 @@ public class LinkedList<T> implements List<T>{
             for (int i = 0; i < pos - 1; i++) {
                 previous = previous.next;
             }
-            Node<T> node = new Node<T>(item);
+            Node<T> node = new Node<>(item);
             node.next = previous.next;
             previous.next = node;
         }
@@ -90,14 +88,14 @@ public class LinkedList<T> implements List<T>{
             return "NULL";
         }
         while (node != null) {
-            stringBuilder.append(node.data + "\n");
+            stringBuilder.append(node.data).append("\n");
             node = node.next;
         }
         return stringBuilder.toString();
     }
 
     public Iterator<T> iterator() {
-        return new ListIterator<T>();
+        return new ListIterator<>();
     }
 
     private class ListIterator<T> implements Iterator<T> {
@@ -105,10 +103,7 @@ public class LinkedList<T> implements List<T>{
 
         @Override
         public boolean hasNext() {
-            if (node != null)
-                return true;
-            else
-                return false;
+            return node != null;
         }
 
         @Override

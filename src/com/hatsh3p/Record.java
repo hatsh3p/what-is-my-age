@@ -7,9 +7,6 @@ public class Record {
     String name;
     int frequency;
 
-    public Record() {
-    }
-
     public Record(String state, String gender, int year, String name, int frequency) {
         this.state = state;
         this.gender = gender;
@@ -36,6 +33,10 @@ public class Record {
 
     public int getYear() {
         return year;
+    }
+
+    public String getState() {
+        return state;
     }
 
     @Override
