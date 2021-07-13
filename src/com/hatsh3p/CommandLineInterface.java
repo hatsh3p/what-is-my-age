@@ -1,6 +1,5 @@
 package com.hatsh3p;
 
-import java.util.ListIterator;
 import java.util.Scanner;
 
 public class CommandLineInterface {

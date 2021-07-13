@@ -59,24 +59,6 @@ public class ArrayList<T> implements List<T> {
         return size;
     }
 
-
-//    public int search(T item) {
-//        int start = 0;
-//        int end = size;
-//
-//        while (start < end) {
-//            int midpoint = (start + end) / 2;
-//            if (arr[midpoint] == item) {
-//                return midpoint;
-//            } else if (arr[midpoint] < item) {
-//                start = midpoint + 1;
-//            } else {
-//                end = midpoint;
-//            }
-//        }
-//        return -1;
-//    }
-
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < size; i++) {
