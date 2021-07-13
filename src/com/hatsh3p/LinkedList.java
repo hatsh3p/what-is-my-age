@@ -3,6 +3,7 @@ package com.hatsh3p;
 public class LinkedList<T> implements List<T>{
     private int size;
     private Node<T> head;
+    private Node<T> tail;
 
     public LinkedList() {
         this.size = 0;
@@ -12,12 +13,11 @@ public class LinkedList<T> implements List<T>{
     public void add(T item) {
         if (head == null) {
             head = new Node<>(item);
+            tail = head;
         } else {
-            Node<T> node = head;
-            while (node.next != null) {
-                node = node.next;
-            }
-            node.next = new Node<>(item);
+            Node<T> node = tail;
+            tail.next = new Node<>(item);
+            tail = tail.next;
         }
         ++size;
     }
@@ -26,6 +26,9 @@ public class LinkedList<T> implements List<T>{
     public void add(int pos, T item) {
         if (pos < 0 || pos > size)
             throw new IndexOutOfBoundsException();
+        if (size() == 0 || pos == size() - 1) { // i.e. adding first element OR last element
+            add(item);
+        }
         if (pos == 0) {
             Node<T> node = new Node<>(item);
             node.next = head;
@@ -61,6 +64,9 @@ public class LinkedList<T> implements List<T>{
         if (pos == 0) {
             Node<T> node = head;
             head = head.next;
+            if (size() == 1) {
+                head = tail = null;
+            }
             --size;
             return node.data;
         } else {
@@ -70,6 +76,9 @@ public class LinkedList<T> implements List<T>{
             }
             Node<T> node = previous.next;
             previous.next = node.next;
+            if (pos == size() - 1) {
+                tail = node;
+            }
             --size;
             return node.data;
         }

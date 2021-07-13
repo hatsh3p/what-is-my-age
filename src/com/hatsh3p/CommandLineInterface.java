@@ -1,26 +1,27 @@
 package com.hatsh3p;
 
+import java.util.ListIterator;
 import java.util.Scanner;
 
 public class CommandLineInterface {
-    private final String EXIT_MESSAGE = "EXIT";
-    private final int CURRENT_YEAR = 2021;
-    private final String[] STATE_CODES = {"AK", "AL", "AR", "AS", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "GU", "HI",
-        "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MP", "MS", "MT", "NC", "ND", "NE",
-        "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UM", "UT", "VA", "VI",
-        "VT", "WA", "WI", "WV", "WY"};
+
+    private final String[] stateCodes;
+    private int numberOfStateCodes = 0;
     private boolean exit;
     private Query query;
 
     public CommandLineInterface() {
+        // 50 States + DC
+        int NUMBER_OF_STATES = 51;
+        this.stateCodes = new String[NUMBER_OF_STATES];
         this.exit = false;
     }
 
     public void getUserInput() {
         Scanner scanner = new Scanner(System.in);
         String name = null;
-        String state = null;
-        String gender = null;
+        String state;
+        String gender;
         boolean validName = false;
         boolean validGender = false;
         boolean validState = false;
@@ -29,6 +30,7 @@ public class CommandLineInterface {
             System.out.print("Name of the person (or EXIT to quit): ");
             if (scanner.hasNext("[A-Za-z]+")) {
                 name = scanner.next();
+                String EXIT_MESSAGE = "EXIT";
                 if (name.equals(EXIT_MESSAGE)) {
                     exit = true;
                     return;
@@ -58,7 +60,7 @@ public class CommandLineInterface {
             System.out.print("State of birth (two-letter state code): ");
             if (scanner.hasNext()) {
                 state = scanner.next();
-                for (String code : STATE_CODES) {
+                for (String code : stateCodes) {
                     if (state.equals(code)) {
                         validState = true;
                         break;
@@ -73,18 +75,32 @@ public class CommandLineInterface {
             }
         } while (!validState);
 
-            query = new Query(name, state, gender);
+        query = new Query(name, state, gender);
     }
 
     public void findQuery(List<Record> list) {
         if (isExit())
             return;
         int age = -1;
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getName().equals(query.getName()))
-                age = CURRENT_YEAR - list.get(i).getYear();
+        int highestFrequency = -1;
+        int year = -1;
+        int CURRENT_YEAR = 2021;
+        Iterator<Record> iterator = list.iterator();
+        boolean matchFound = false;
+
+        while (iterator.hasNext()) {
+            Record record = iterator.next();
+            if (record.match(query.getState(), query.getGender(), query.getName())) {
+                matchFound = true;
+                if (record.getFrequency() > highestFrequency) {
+                    highestFrequency = record.getFrequency();
+                    year = record.getYear();
+                }
+            }
         }
-        if (age != -1) {
+
+        if (matchFound) {
+            age = CURRENT_YEAR - year;
             System.out.print(query.getName() + ", " +
                     query.getGender() + ", born in " +
                     query.getState() + ", is most likely around " +
@@ -94,6 +110,10 @@ public class CommandLineInterface {
                     query.getGender() + ", not found in " +
                     query.getState());
         }
+    }
+
+    public void addStateCodes(String state) {
+        stateCodes[numberOfStateCodes++] = state;
     }
 
     public void printWelcome() {

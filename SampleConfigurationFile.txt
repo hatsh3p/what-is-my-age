@@ -1,5 +1,5 @@
 Here's a bunch of junk!!!
 Directory=States
 Whats upppp
-ListType=LinkedList
+ListType=ArrayList
 Hiiiiii
