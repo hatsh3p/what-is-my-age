@@ -1,5 +1,5 @@
 Here's a bunch of junk!!!
-Directory=States
+Directory=States/ME.TXT
 Whats upppp
-ListType=ArrayList
+ListType=LinkedList
 Hiiiiii

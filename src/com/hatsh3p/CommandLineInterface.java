@@ -44,7 +44,6 @@ public class CommandLineInterface {
 
 
         do {
-            System.out.println("Note: US SSA data does not include non-binary as a gender identity");
             System.out.print("Gender (M/F): ");
             if (scanner.hasNext("[M|F]")) {
                 gender = scanner.next();
@@ -117,6 +116,7 @@ public class CommandLineInterface {
 
     public void printWelcome() {
         System.out.println("Welcome to What's My Age?");
+        System.out.println("Note: US SSA data does not include non-binary as a gender identity.");
     }
 
     public void terminate() {

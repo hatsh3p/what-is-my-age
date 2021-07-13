@@ -7,7 +7,10 @@ import java.io.IOException;
 
 public class AgePredictor {
 
-    AgePredictor(File file) {
+    File file;
+
+    public AgePredictor(File file) {
+        this.file = file;
     }
 
     public void predict() {
@@ -16,10 +19,11 @@ public class AgePredictor {
         CommandLineInterface commandLineInterface = new CommandLineInterface();
         commandLineInterface.printWelcome();
         try {
-            configuration.setProperties("SampleConfigurationFile.txt");
+            configuration.setProperties(file.toString());
         } catch (Exception e) {
             System.out.println("Error: Issues processing configuration file");
             commandLineInterface.terminate();
+            return;
         }
 
         // Requirement 2: Store data from SSA files, Requirement 3: Accept 1+ queries
@@ -30,8 +34,11 @@ public class AgePredictor {
             List<Record> records = readRecords(configuration, recordFile);
             String state = records.get(0).getState();
             commandLineInterface.addStateCodes(state);
-            while(!commandLineInterface.isExit()) {
+            while(true) {
                 commandLineInterface.getUserInput();
+                if (commandLineInterface.isExit()) {
+                    return;
+                }
                 commandLineInterface.findQuery(records);
             }
             // (2): Directory
@@ -53,8 +60,11 @@ public class AgePredictor {
                 commandLineInterface.addStateCodes(state);
             }
 
-            while(!commandLineInterface.isExit()) {
+            while (true) {
                 commandLineInterface.getUserInput();
+                if (commandLineInterface.isExit()) {
+                    return;
+                }
 
                 // Get record for the appropriate state
                 String stateQueried = commandLineInterface.getQuery().getState();
@@ -87,7 +97,6 @@ public class AgePredictor {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             String[] tempArr;
-//            int linesLoaded = 0;
 
             while((line = bufferedReader.readLine()) != null) {
                 // CSV --> variable
@@ -100,12 +109,6 @@ public class AgePredictor {
 
                 Record record = new Record(state, gender, year, name, frequency);
                 list.add(record);
-
-//                linesLoaded++;
-//                if (linesLoaded % 10000 == 0) {
-//                    System.out.println("Loaded " + linesLoaded + " records so far...");
-//                    System.out.println(record);
-//                }
             }
             bufferedReader.close();
         } catch (IOException ioe) {

@@ -5,8 +5,8 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) {
-        File file = new File("SampleConfigurationFile.txt");
-        AgePredictor agePredictor = new AgePredictor(file);
+        File configuration = new File("SampleConfigurationFile.txt");
+        AgePredictor agePredictor = new AgePredictor(configuration);
         agePredictor.predict();
     }
 }
