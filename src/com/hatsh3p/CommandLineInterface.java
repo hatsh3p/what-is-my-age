@@ -32,7 +32,7 @@ public class CommandLineInterface {
                 name = scanner.next();
                 String EXIT_MESSAGE = "EXIT";
                 if (name.equals(EXIT_MESSAGE)) {
-                    exit = true;
+                    terminate();
                     return;
                 }
                 validName = true;
@@ -122,7 +122,7 @@ public class CommandLineInterface {
 
     public void terminate() {
         System.out.println("Program terminated...");
-        this.exit = true;
+        exit = true;
     }
 
     public boolean isExit() {
