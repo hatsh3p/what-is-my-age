@@ -12,7 +12,7 @@ Files included are:
 
 # Challenges
 I broke this project into smaller pieces by creating many classes. However, the overall design is clunky.
-If I had more timem I would have rewrote the classes that do the most heavy lifting in this program:
+If I had more time I would have rewrote the classes that do the most heavy lifting in this program:
 AgePredictor, CommandLineInterface, and Configuration.
 
 # Complexity
