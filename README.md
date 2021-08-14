@@ -1,5 +1,9 @@
 # WhatIsMyAge
 
+## Problem
+Predict someone's age based on their first name
+
+## Background
 This program stores Social Security Administration data on name frequency and accepts user queries. 
 Files included are:
 - **Data Strucures & Tests:** ArrayList, ArrayListTest, Iterator, LinkedList, LinkedListTest, Node
